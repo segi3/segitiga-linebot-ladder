@@ -104,7 +104,7 @@ const handleEvent = (event) => {
         console.log(cache)
 
         let txtReply = ''
-        if (cache.hasOwnProperty(groupId)) {
+        if (cache[groupId] === undefined || cache[groupId] === null) {
             txtReply = 'Gak bisa reshuffle, belum ada data ladder :('
             return client.replyMessage(event.replyToken, {
                 type: 'text',
