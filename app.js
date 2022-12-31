@@ -4,6 +4,8 @@ const config = {
     channelSecret: process.env.LINE_CHANNEL_SECRET
 }
 
+let cache = {}
+
 const app = require('express')()
 const line = require('@line/bot-sdk')
 
@@ -30,7 +32,7 @@ const handleEvent = (event) => {
     }
 
     if (event.message.text.toLowerCase().includes('/ladder')) {
-        let txtReply = ''
+        const groupId = event.source.groupId
         const raw = event.message.text
         const filtered = raw.trim().replace(/\n/g, ' ')
 
@@ -39,6 +41,8 @@ const handleEvent = (event) => {
 
         const opsiArr = filtered.match(opsiRegex).map(s => s.trim())
         const orangArr = filtered.match(orangRegex).map(s => s.trim())
+
+        let txtReply = ''
 
         if (opsiArr.length != orangArr.length) {
             txtReply = 'Jumlah opsi sama orangnya gak sama'
@@ -69,10 +73,55 @@ const handleEvent = (event) => {
 
         txtReply = txtReply + 'Hasil Ladder\n'
         for (let i = 0; i < opsiArr.length; i++) {
-            txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}\n`
+            txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}`
+            if (i+1 != opsiArr.length) {
+                txtReply+=`\n`
+            }
         }
 
-        // console.log(txtReply)
+        const replyObj = {
+            type: 'text',
+            text: txtReply
+        }
+
+        let toSaveToCache = {
+            opsiArr,
+            orangArr
+        }
+        cache[groupId] = toSaveToCache
+
+        return client.replyMessage(event.replyToken, replyObj)
+
+    } else if (event.message.text.toLowerCase().includes('/reshuffle')) {
+        const groupId = event.source.groupId
+        const opsiArr = cache[groupId].opsiArr
+        const orangArr = cache[groupId].orangArr
+
+        if (groupId in cache) {
+            txtReply = 'Gak bisa reshuffle, belum ada data ladder :('
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: txtReply
+            })
+        }
+
+        let shuffled = orangArr
+            .map(value => ({
+                value,
+                sort: Math.random()
+            }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({
+                value
+            }) => value)
+
+        let txtReply = 'Hasil Ladder\n'
+        for (let i = 0; i < opsiArr.length; i++) {
+            txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}`
+            if (i+1 != opsiArr.length) {
+                txtReply+=`\n`
+            }
+        }
 
         const replyObj = {
             type: 'text',
