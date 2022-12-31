@@ -90,12 +90,16 @@ const handleEvent = (event) => {
         }
         cache[groupId] = toSaveToCache
 
+        console.log(`saved to cache, rn ${cache}`)
+
         return client.replyMessage(event.replyToken, replyObj)
 
     } else if (event.message.text.toLowerCase().includes('/reshuffle')) {
         const groupId = event.source.groupId
         const opsiArr = cache[groupId].opsiArr
         const orangArr = cache[groupId].orangArr
+
+        console.log(`searching for ${groupId} in ${cache}`)
 
         let txtReply = ''
         if (groupId in cache) {
