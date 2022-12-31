@@ -90,7 +90,8 @@ const handleEvent = (event) => {
         }
         cache[groupId] = toSaveToCache
 
-        console.log(`saved to cache, rn ${cache}`)
+        console.log(`saved ${groupId} to cache, rn ${cache}`)
+        console.log(cache)
 
         return client.replyMessage(event.replyToken, replyObj)
 
@@ -100,6 +101,7 @@ const handleEvent = (event) => {
         const orangArr = cache[groupId].orangArr
 
         console.log(`searching for ${groupId} in ${cache}`)
+        console.log(cache)
 
         let txtReply = ''
         if (groupId in cache) {
