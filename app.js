@@ -3,7 +3,7 @@ const config = {
     channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
     channelSecret: process.env.LINE_CHANNEL_SECRET
 }
-console.log(config)
+
 const app = require('express')()
 const line = require('@line/bot-sdk')
 
@@ -17,6 +17,8 @@ app.post('/webhook', line.middleware(config), (req, res) => {
       .then((result) => res.json(result))
       .catch((err) => {
         console.error(err)
+        console.error(err.originalError.response.data)
+        console.error(err.response.data)
         res.status(500).end()
       })
 })
