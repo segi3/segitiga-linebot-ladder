@@ -29,12 +29,59 @@ const handleEvent = (event) => {
         return Promise.resolve(null)
     }
 
-    const echo = {
-        type: 'text',
-        text: event.message.text
+    if (event.message.text.toLowerCase().includes('/ladder')) {
+        let txtReply = ''
+        const raw = event.message.text
+        const filtered = raw.trim().replace(/\n/g, ' ')
+
+        const opsiRegex = /(?<=[|]).+?(?=[\|@])/g
+        const orangRegex = /(?<=@).+?(?=@|$)/g
+
+        const opsiArr = filtered.match(opsiRegex).map(s => s.trim())
+        const orangArr = filtered.match(orangRegex).map(s => s.trim())
+
+        if (opsiArr.length != orangArr.length) {
+            txtReply = 'Jumlah opsi sama orangnya gak sama'
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: txtReply
+            })
+        }
+
+        txtReply = 'Opsi\n'
+        for (let op in opsiArr) {
+            txtReply = txtReply + `- ${opsiArr[op]}\n`
+        }
+        txtReply = txtReply + 'Orang\n'
+        for (let or in orangArr) {
+            txtReply = txtReply + `- ${orangArr[or]}\n`
+        }
+
+        let shuffled = orangArr
+            .map(value => ({
+                value,
+                sort: Math.random()
+            }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({
+                value
+            }) => value)
+
+        txtReply = txtReply + 'Hasil Ladder\n'
+        for (let i = 0; i < opsiArr.length; i++) {
+            txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}\n`
+        }
+
+        // console.log(txtReply)
+
+        const replyObj = {
+            type: 'text',
+            text: txtReply
+        }
+
+        return client.replyMessage(event.replyToken, replyObj)
     }
 
-    return client.replyMessage(event.replyToken, echo)
 }
 
 app.listen(process.env.PORT)
