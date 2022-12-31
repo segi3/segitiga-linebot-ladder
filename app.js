@@ -97,6 +97,7 @@ const handleEvent = (event) => {
         const opsiArr = cache[groupId].opsiArr
         const orangArr = cache[groupId].orangArr
 
+        let txtReply = ''
         if (groupId in cache) {
             txtReply = 'Gak bisa reshuffle, belum ada data ladder :('
             return client.replyMessage(event.replyToken, {
@@ -115,7 +116,7 @@ const handleEvent = (event) => {
                 value
             }) => value)
 
-        let txtReply = 'Hasil Ladder\n'
+        txtReply = 'Hasil Ladder\n'
         for (let i = 0; i < opsiArr.length; i++) {
             txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}`
             if (i+1 != opsiArr.length) {
