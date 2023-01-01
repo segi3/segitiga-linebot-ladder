@@ -29,7 +29,7 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 })
 
 const client = new line.Client(config)
-const handleEvent = (event) => {
+const handleEvent = async (event) => {
     if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null)
     }
@@ -119,7 +119,7 @@ const handleEvent = (event) => {
             // const orangArr = cache[groupId].orangArr
 
             /* cache using redis */
-            let cached = renderRedis.get(groupId)
+            let cached = await renderRedis.get(groupId)
             if (cached === null) {
                 txtReply = 'Gak bisa reshuffle, belum ada data ladder :('
                 return client.replyMessage(event.replyToken, {
