@@ -46,7 +46,7 @@ const handleEvent = async (event) => {
 
         // text message event
         if (event.message.text.toLowerCase().includes('/ladder')) {
-            const groupId = event.source.groupId ? event.source.groupId : event.source.userId
+            const groupId = event.source.groupId ? event.source.groupId : event.source.roomId
             const raw = event.message.text
             const filtered = raw.trim().replace(/\n/g, ' ')
     
@@ -101,7 +101,7 @@ const handleEvent = async (event) => {
             return client.replyMessage(event.replyToken, replyObj)
     
         } else if (event.message.text.toLowerCase().includes('/reshuffle')) {
-            const groupId = event.source.groupId ? event.source.groupId : event.source.userId
+            const groupId = event.source.groupId ? event.source.groupId : event.source.roomId
             let txtReply = ''
 
             /* cache using json */
@@ -180,7 +180,7 @@ const handleEvent = async (event) => {
         console.log(e)
         return client.replyMessage(event.replyToken, {
             type: 'text',
-            text: 'command gak bisa di proses, ada error di app :('
+            text: 'nanti ya lagi sibuk :('
         })
     }
 }
