@@ -127,9 +127,7 @@ const handleEvent = async (event) => {
                     text: txtReply
                 })
             }
-            console.log(cached)
-            console.log(typeof(cached))
-            // cached = JSON.parse(cached)
+            cached = JSON.parse(cached)
             const { opsiArr, orangArr } = cached
     
             let shuffled = orangArr
