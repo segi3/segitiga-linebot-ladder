@@ -144,6 +144,30 @@ const handleEvent = async (event) => {
     
             return client.replyMessage(event.replyToken, replyObj)
     
+        } else if (event.message.text.toLowerCase().includes('/bantu') || 
+                    event.message.text.toLowerCase().includes('/tolong') ||
+                    event.message.text.toLowerCase().includes('/help')) {
+            const helpMsg = ```
+                Cara pakai Ladder Bot:
+
+                Awali message dengan \`/ladder\`
+
+                Setiap opsi di tulis setelah command, dan setiap kalimat opsi diawali dengan simbol \`|\`
+
+                Partisipan ditulis setelah opsi, dan setiap nama partisipan diawali dengan simbol \`@\`
+
+                contoh message:
+
+                /ladder
+                | opsi satu
+                | opsi dua
+                | opsi tiga
+                @ kamu @ aku @juga dia
+            ```
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: helpMsg
+            })
         } else if (event.message.text.toLowerCase().includes('/bangun')) {
             return client.replyMessage(event.replyToken, {
                 type: 'text',
