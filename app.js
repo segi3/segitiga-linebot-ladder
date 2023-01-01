@@ -127,7 +127,9 @@ const handleEvent = (event) => {
                     text: txtReply
                 })
             }
-            cached = JSON.parse(cached)
+            console.log(cached)
+            console.log(typeof(cached))
+            // cached = JSON.parse(cached)
             const { opsiArr, orangArr } = cached
     
             let shuffled = orangArr
