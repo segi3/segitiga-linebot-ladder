@@ -97,8 +97,6 @@ const handleEvent = (event) => {
 
     } else if (event.message.text.toLowerCase().includes('/reshuffle')) {
         const groupId = event.source.groupId
-        const opsiArr = cache[groupId].opsiArr
-        const orangArr = cache[groupId].orangArr
 
         console.log(`searching for ${groupId} in ${cache}`)
         console.log(cache)
@@ -111,6 +109,8 @@ const handleEvent = (event) => {
                 text: txtReply
             })
         }
+        const opsiArr = cache[groupId].opsiArr
+        const orangArr = cache[groupId].orangArr
 
         let shuffled = orangArr
             .map(value => ({
@@ -136,6 +136,20 @@ const handleEvent = (event) => {
         }
 
         return client.replyMessage(event.replyToken, replyObj)
+
+    } else if (event.message.text.toLowerCase().includes('/bangun')) {
+        return client.replyMessage(event.replyToken, {
+            type: 'siap udah bangun',
+            text: txtReply
+        })
+    } else if (event.message.text.toLowerCase().includes('/dbcache')) {
+        console.log(cache)
+    } else if (event.message.text.toLowerCase().includes('/groupid')) {
+        console.log(`groupId => ${event.source.groupId}`)
+        return client.replyMessage(event.replyToken, {
+            type: event.source.groupId,
+            text: txtReply
+        })
     }
 
 }
