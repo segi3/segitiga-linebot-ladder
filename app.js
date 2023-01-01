@@ -5,6 +5,9 @@ const config = {
 }
 
 let cache = {}
+const Redis = require("ioredis")
+const { REDIS_URL } = process.env
+const renderRedis = new Redis(REDIS_URL)
 
 const app = require('express')()
 const line = require('@line/bot-sdk')
@@ -93,25 +96,39 @@ const handleEvent = (event) => {
     
             console.log(`saved ${groupId} to cache, rn ${cache}`)
             console.log(cache)
+
+            renderRedis.set(groupId, JSON.stringify(toSaveToCache), 'EX', 900) // set to expire in 15 minutes
     
             return client.replyMessage(event.replyToken, replyObj)
     
         } else if (event.message.text.toLowerCase().includes('/reshuffle')) {
             const groupId = event.source.groupId
-    
-            console.log(`searching for ${groupId} in ${cache}`)
-            console.log(cache)
-    
             let txtReply = ''
-            if (cache[groupId] === undefined || cache[groupId] === null) {
+
+            /* cache using json */
+            // console.log(`searching for ${groupId} in ${cache}`)
+            // console.log(cache)
+            // if (cache[groupId] === undefined || cache[groupId] === null) {
+            //     txtReply = 'Gak bisa reshuffle, belum ada data ladder :('
+            //     return client.replyMessage(event.replyToken, {
+            //         type: 'text',
+            //         text: txtReply
+            //     })
+            // }
+            // const opsiArr = cache[groupId].opsiArr
+            // const orangArr = cache[groupId].orangArr
+
+            /* cache using redis */
+            let cached = renderRedis.get(groupId)
+            if (cached === null) {
                 txtReply = 'Gak bisa reshuffle, belum ada data ladder :('
                 return client.replyMessage(event.replyToken, {
                     type: 'text',
                     text: txtReply
                 })
             }
-            const opsiArr = cache[groupId].opsiArr
-            const orangArr = cache[groupId].orangArr
+            cached = JSON.parse(cached)
+            const { opsiArr, orangArr } = cached
     
             let shuffled = orangArr
                 .map(value => ({
