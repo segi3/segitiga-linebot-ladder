@@ -56,15 +56,6 @@ const handleEvent = async (event) => {
                 })
             }
     
-            txtReply = 'Opsi\n'
-            for (let op in opsiArr) {
-                txtReply = txtReply + `- ${opsiArr[op]}\n`
-            }
-            txtReply = txtReply + 'Orang\n'
-            for (let or in orangArr) {
-                txtReply = txtReply + `- ${orangArr[or]}\n`
-            }
-    
             let shuffled = orangArr
                 .map(value => ({
                     value,
@@ -75,17 +66,15 @@ const handleEvent = async (event) => {
                     value
                 }) => value)
     
-            txtReply = txtReply + 'Hasil Ladder\n'
+            txtReply = '*Hasil Ladder*\n'
+            let reShuffleMsg = '\nDalam jangka waktu 15 menit, hasil ladder bisa di reshuffle pakek `/reshuffle`'
             for (let i = 0; i < opsiArr.length; i++) {
-                txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}`
-                if (i+1 != opsiArr.length) {
-                    txtReply+=`\n`
-                }
+                txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}\n`
             }
     
             const replyObj = {
                 type: 'text',
-                text: txtReply
+                text: txtReply + reShuffleMsg
             }
     
             let toSaveToCache = {
@@ -140,7 +129,7 @@ const handleEvent = async (event) => {
                     value
                 }) => value)
     
-            txtReply = 'Hasil Ladder\n'
+            txtReply = '*Reshuffle Ladder*\n'
             for (let i = 0; i < opsiArr.length; i++) {
                 txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}`
                 if (i+1 != opsiArr.length) {
@@ -166,7 +155,7 @@ const handleEvent = async (event) => {
             console.log(`groupId => ${event.source.groupId}`)
             return client.replyMessage(event.replyToken, {
                 type: 'text',
-                text: event.source.groupId
+                text: 'groupId ini adalah ' + event.source.groupId
             })
         }
     } catch (e) {
