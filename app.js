@@ -37,13 +37,8 @@ const handleEvent = async (event) => {
 
     try {
         // follow event
-        if (event.type === 'follow') {
-            let greetMsg = ```
-                Hi! Thank you for adding me as your friend!! I am just a bot to create ladder :) (for now)
-                You can ask for my help anytime! if you don't know how just ask me by typing \`/help\`, \`/bantu\`, or \`/tolong\`
-
-                Have a great day!
-            ```
+        if (event.type == 'follow') {
+            let greetMsg = `Hi! Thank you for adding me as your friend!! I am just a bot to create ladder :) (for now)\nYou can ask for my help anytime! if you don't know how just ask me by typing \`/help\`, \`/bantu\`, or \`/tolong\`\n\nHave a great day!`
             return client.replyMessage(event.replyToken, {
                 type: 'text',
                 text: greetMsg
@@ -163,23 +158,7 @@ const handleEvent = async (event) => {
         } else if (event.message.text.toLowerCase().includes('/bantu') || 
                     event.message.text.toLowerCase().includes('/tolong') ||
                     event.message.text.toLowerCase().includes('/help')) {
-            const helpMsg = ```
-                Cara pakai Ladder Bot:
-
-                Awali message dengan \`/ladder\`
-
-                Setiap opsi di tulis setelah command, dan setiap kalimat opsi diawali dengan simbol \`|\`
-
-                Partisipan ditulis setelah opsi, dan setiap nama partisipan diawali dengan simbol \`@\`
-
-                contoh message:
-
-                /ladder
-                | opsi satu
-                | opsi dua
-                | opsi tiga
-                @ kamu @ aku @juga dia
-            ```
+            const helpMsg = `Cara pakai Ladder Bot:\n\nAwali message dengan \`/ladder\`\n\nSetiap opsi di tulis setelah command, dan setiap kalimat opsi diawali dengan simbol \`|\`\n\nPartisipan ditulis setelah opsi, dan setiap nama partisipan diawali dengan simbol \`@\`\n\ncontoh message:\n\n/ladder\n| opsi satu\n| opsi dua\n| opsi tiga\n@ kamu @ aku @juga dia\n`
             return client.replyMessage(event.replyToken, {
                 type: 'text',
                 text: helpMsg
