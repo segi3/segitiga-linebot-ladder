@@ -46,7 +46,7 @@ const handleEvent = async (event) => {
 
         // text message event
         if (event.message.text.toLowerCase().includes('/ladder')) {
-            const groupId = event.source.groupId
+            const groupId = event.source.groupId ? event.source.groupId : event.source.userId
             const raw = event.message.text
             const filtered = raw.trim().replace(/\n/g, ' ')
     
@@ -101,11 +101,11 @@ const handleEvent = async (event) => {
             return client.replyMessage(event.replyToken, replyObj)
     
         } else if (event.message.text.toLowerCase().includes('/reshuffle')) {
-            const groupId = event.source.groupId
+            const groupId = event.source.groupId ? event.source.groupId : event.source.userId
             let txtReply = ''
 
             /* cache using json */
-            // console.log(`searching for ${groupId} in ${cache}`)
+            console.log(`searching for ${groupId} in ${cache}`)
             // console.log(cache)
             // if (cache[groupId] === undefined || cache[groupId] === null) {
             //     txtReply = 'Gak bisa reshuffle, belum ada data ladder :('
