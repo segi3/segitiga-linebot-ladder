@@ -30,11 +30,27 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 const client = new line.Client(config)
 const handleEvent = async (event) => {
-    if (event.type !== 'message' || event.message.type !== 'text') {
+    if (event.type !== 'message' || event.message.type !== 'text' ||
+        event.type !== 'follow') {
         return Promise.resolve(null)
     }
 
     try {
+        // follow event
+        if (event.type === 'follow') {
+            let greetMsg = ```
+                Hi! Thank you for adding me as your friend!! I am just a bot to create ladder :) (for now)
+                You can ask for my help anytime! if you don't know how just ask me by typing \`/help\`, \`/bantu\`, or \`/tolong\`
+
+                Have a great day!
+            ```
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: greetMsg
+            })
+        }
+
+        // text message event
         if (event.message.text.toLowerCase().includes('/ladder')) {
             const groupId = event.source.groupId
             const raw = event.message.text
