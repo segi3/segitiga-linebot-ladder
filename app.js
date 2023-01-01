@@ -92,10 +92,10 @@ const handleEvent = (event) => {
                 opsiArr,
                 orangArr
             }
-            cache[groupId] = toSaveToCache
-    
+
+            // cache[groupId] = toSaveToCache
             console.log(`saved ${groupId} to cache, rn ${cache}`)
-            console.log(cache)
+            // console.log(cache)
 
             renderRedis.set(groupId, JSON.stringify(toSaveToCache), 'EX', 900) // set to expire in 15 minutes
     
@@ -170,6 +170,7 @@ const handleEvent = (event) => {
             })
         }
     } catch (e) {
+        console.log(e)
         return client.replyMessage(event.replyToken, {
             type: 'text',
             text: 'command gak bisa di proses, ada error di app :('
