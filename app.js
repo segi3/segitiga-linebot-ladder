@@ -175,6 +175,43 @@ const handleEvent = async (event) => {
                 type: 'text',
                 text: 'groupId ini adalah ' + event.source.groupId
             })
+        } else if (event.message.text.toLowerCase().includes('/health')) {
+            const userId = event.source.userId ? event.source.userId : null
+            if (userId === null || userId != process.env.RAFI_USERID) {
+                return client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: 'nope'
+                })
+            }
+
+            const months = [
+                'Januari',
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+                ]
+                
+            const day = [
+                'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu', 'Minggu']
+
+            let offset = '+7.0'
+            var d = new Date()
+            var utc = d.getTime() + (d.getTimezoneOffset() * 60000)
+            var nd = new Date(utc + (3600000*offset))
+
+            let str = `Absen Pagi ${day[nd.getDay()]} ${nd.getDate()} ${months[nd.getMonth()]} ${nd.getFullYear()}\nNama: Rafi Nizar A\nKondisi: Sehat`
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: str
+            })
         }
     } catch (e) {
         console.log(e)
