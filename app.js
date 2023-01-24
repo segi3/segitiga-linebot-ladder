@@ -169,11 +169,11 @@ const handleEvent = async (event) => {
             })
         } else if (event.message.text.toLowerCase().includes('/id')) {
             let id = 'n/a'
-            if (event.source.groupId) {
+            if (event.source.groupId != undefined) {
                 id = event.source.groupId
-            } else if (event.source.roomId) {
+            } else if (event.source.roomId != undefined) {
                 id = event.source.roomId
-            } else if (event.source.userId) {
+            } else if (event.source.userId != undefined) {
                 id = event.source.userId
             }
 
