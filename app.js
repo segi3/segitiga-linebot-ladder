@@ -168,7 +168,7 @@ const handleEvent = async (event) => {
                 text: 'siap udah bangun'
             })
         } else if (event.message.text.toLowerCase().includes('/id')) {
-            const id = 'n/a'
+            let id = 'n/a'
             if (event.source.groupId) {
                 id = event.source.groupId
             } else if (event.source.roomId) {
