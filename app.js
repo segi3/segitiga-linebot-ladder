@@ -167,17 +167,23 @@ const handleEvent = async (event) => {
                 type: 'text',
                 text: 'siap udah bangun'
             })
-        } else if (event.message.text.toLowerCase().includes('/dbcache')) {
-            console.log(cache)
-        } else if (event.message.text.toLowerCase().includes('/groupid')) {
-            console.log(`groupId => ${event.source.groupId}`)
+        } else if (event.message.text.toLowerCase().includes('/id')) {
+            const id = 'n/a'
+            if (event.source.groupId) {
+                id = event.source.groupId
+            } else if (event.source.roomId) {
+                id = event.source.roomId
+            } else if (event.source.userId) {
+                id = event.source.userId
+            }
+
             return client.replyMessage(event.replyToken, {
                 type: 'text',
-                text: 'groupId ini adalah ' + event.source.groupId
+                text: 'id: ' + event.source.groupId
             })
         } else if (event.message.text.toLowerCase().includes('/health')) {
             const userId = event.source.userId ? event.source.userId : null
-            if (userId === null || userId != process.env.RAFI_USERID) {
+            if (userId === null || userId != process.env.ADMIN_USERID) {
                 return client.replyMessage(event.replyToken, {
                     type: 'text',
                     text: 'nope'
