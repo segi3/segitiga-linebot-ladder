@@ -77,7 +77,7 @@ const handleEvent = async (event) => {
                 }) => value)
     
             txtReply = '*Hasil Ladder*\n'
-            let reShuffleMsg = '\nDalam jangka waktu 15 menit, hasil ladder bisa di reshuffle pakek `/reshuffle`'
+            let reShuffleMsg = '\nDalam 15 menit, hasil ladder bisa di reshuffle pakek `/reshuffle`'
             for (let i = 0; i < opsiArr.length; i++) {
                 txtReply = txtReply + `- ${opsiArr[i]} > ${shuffled[i]}\n`
             }
@@ -179,7 +179,7 @@ const handleEvent = async (event) => {
 
             return client.replyMessage(event.replyToken, {
                 type: 'text',
-                text: 'id: ' + event.source.groupId
+                text: 'id: ' + id
             })
         } else if (event.message.text.toLowerCase().includes('/health')) {
             const userId = event.source.userId ? event.source.userId : null
@@ -191,18 +191,7 @@ const handleEvent = async (event) => {
             }
 
             const months = [
-                'Januari',
-                'Februari',
-                'Maret',
-                'April',
-                'Mei',
-                'Juni',
-                'Juli',
-                'Agustus',
-                'September',
-                'Oktober',
-                'November',
-                'Desember'
+                'Mei', 'Juni',
                 ]
                 
             const day = [
