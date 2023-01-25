@@ -9,6 +9,19 @@ const Redis = require("ioredis")
 const { REDIS_URL } = process.env
 const renderRedis = new Redis(REDIS_URL)
 
+// load config from mongodb, not yet used as db
+const { MongoClient } = require("mongodb")
+
+let whitelist = ''
+const initMongodbAndConfig = async () => {
+    const mongoc = new MongoClient(process.env.MONGO_URI)
+    const mongodb = mongoc.db('linebot')
+    
+    const appConfig = mongodb.collection('config')
+    whitelist = await appConfig.findOne({ type: 'whitelist' })
+}
+initMongodbAndConfig()
+
 const app = require('express')()
 const line = require('@line/bot-sdk')
 
@@ -183,7 +196,7 @@ const handleEvent = async (event) => {
             })
         } else if (event.message.text.toLowerCase().includes('/health')) {
             const userId = event.source.userId ? event.source.userId : null
-            if (userId === null || userId != process.env.ADMIN_USERID) {
+            if (userId === null || whitelist.users.includes(userId)) {
                 return client.replyMessage(event.replyToken, {
                     type: 'text',
                     text: 'nope'
