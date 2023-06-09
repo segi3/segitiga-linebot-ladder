@@ -1,4 +1,4 @@
-const ladderHandler = async (client, event, renderRedis) => {
+const ladderHandler = async (event, client, renderRedis) => {
     // text message event
     if (event.message.text.toLowerCase().includes('/ladder')) {
         const groupId = event.source.groupId ? event.source.groupId : event.source.roomId
