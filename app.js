@@ -4,7 +4,6 @@ const config = {
     channelSecret: process.env.LINE_CHANNEL_SECRET
 }
 
-let cache = {}
 let renderRedis
 try {
     const Redis = require("ioredis")

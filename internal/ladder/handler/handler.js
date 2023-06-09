@@ -1,3 +1,5 @@
+let cache = {}
+
 const ladderHandler = async (event, client, renderRedis) => {
     // text message event
     if (event.message.text.toLowerCase().includes('/ladder')) {
